@@ -1,4 +1,13 @@
 import tkinter as tk
+import RPi.GPIO as GPIO
+import psutil
+
+# Pin Setup:
+GPIO.setmode(GPIO.BCM)   # Broadcom pin-numbering scheme.
+GPIO.setwarnings(False)
+GPIO.setup(26, GPIO.OUT)
+GPIO.setup(19, GPIO.IN)
+
 
 generatorVoltage = 20.34
 x = "Generator voltage:"
@@ -11,6 +20,7 @@ canvas1.pack()
 def PVC ():  
     label1 = tk.Label(root, text= '  PV Panels Connected  ', fg='green', font=('helvetica', 12, 'bold'))
     canvas1.create_window(100, 150, window=label1)
+    GPIO.output(26, True)
 
 button1 = tk.Button(text='Connect PV Panels',command=PVC, bg='blue',fg='white')
 canvas1.create_window(100, 50, window=button1)
@@ -18,6 +28,7 @@ canvas1.create_window(100, 50, window=button1)
 def PVD ():  
     label2 = tk.Label(root, text= 'PV Panels Disconnected', fg='red', font=('helvetica', 12, 'bold'))
     canvas1.create_window(100, 150, window=label2)
+    GPIO.output(26, False)
 
 button2 = tk.Button(text='Disconnect PV Panels',command=PVD, bg='red',fg='white')
 canvas1.create_window(100, 100, window=button2)
@@ -55,4 +66,5 @@ root.after(1200, voltage)
 root.after(2000, voltage1)
 root.wm_title("Microgrid GUI")
 root.mainloop()
+
 
