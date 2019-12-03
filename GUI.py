@@ -6,11 +6,9 @@ import psutil
 GPIO.setmode(GPIO.BCM)   # Broadcom pin-numbering scheme.
 GPIO.setwarnings(False)
 GPIO.setup(26, GPIO.OUT)
-GPIO.setup(19, GPIO.IN)
+GPIO.setup(4, GPIO.IN)
 
 
-generatorVoltage = 20.34
-x = "Generator voltage:"
 root= tk.Tk()
 
 canvas1 = tk.Canvas(root, width = 600, height = 600)
@@ -47,23 +45,18 @@ def GeneratorD ():
 
 button4 = tk.Button(text='Disconnect Generator',command=GeneratorD, bg='red',fg='white')
 canvas1.create_window(350, 100, window=button4)
-
-def voltage ():  
-    label5 = tk.Label(root, text= 'Generator Disconnected', fg='red', font=('helvetica', 12, 'bold'))
-    canvas1.create_window(350, 250, window=label5)
-    root.after(1200, voltage)
     
-def voltage1 ():  
-    label6 = tk.Label(root, text= '    Generators Voltage', fg='blue', font=('helvetica', 12, 'bold'), bg='grey')
-    canvas1.create_window(350, 170, window=label6)
-    label7 = tk.Label(root, text=generatorVoltage, fg='blue', font=('helvetica', 12, 'bold'), bg='grey')
-    canvas1.create_window(350, 200, window=label7)
-    label8 = tk.Label(root, text= 'V    ', fg='blue', font=('helvetica', 12, 'bold'), bg='grey')
-    canvas1.create_window(385,200, window=label8)
-    root.after(2000, voltage1)
+def voltage1 ():
+    t = GPIO.input(4)
+    label6 = tk.Label(root, text= '    Generator\'s Voltage', fg='blue', font=('helvetica', 12, 'bold'), bg='grey')
+    canvas1.create_window(350, 190, window=label6)
+    label7 = tk.Label(root, text=t*5, fg='blue', font=('helvetica', 12, 'bold'), bg='grey')
+    canvas1.create_window(350, 220, window=label7)
+    label8 = tk.Label(root, text= 'V', fg='blue', font=('helvetica', 12, 'bold'), bg='grey')
+    canvas1.create_window(363,220, window=label8)
+    root.after(1000, voltage1)
 
-root.after(1200, voltage)
-root.after(2000, voltage1)
+root.after(1000, voltage1)
 root.wm_title("Microgrid GUI")
 root.mainloop()
 
