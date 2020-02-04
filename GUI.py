@@ -5,17 +5,40 @@ from PIL import Image, ImageTk
 from tkinter.ttk import *
 from tkinter import *
 from PIL import Image, ImageTk
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from matplotlib import style
 
 
-
-
-
+#######create root and canvas for GUI
 root= tk.Tk()
-
-
 canvas1 = tk.Canvas(root, width = 1600, height = 830)
 canvas1.pack()
 
+
+
+
+
+###############################################
+#used for graph
+style.use('fivethirtyeight')
+
+fig = plt.figure()
+ax1 = fig.add_subplot(1,1,1)
+xs = [1, 2, 3, 4, 5]
+test2 = 1
+def animate(i):
+    global test2
+    test1 = test2 + 0.1
+    test2 = test1
+    ys = [test1, 1, 4, 5, 1/test2]
+    ax1.clear()
+    ax1.plot(xs, ys)
+    
+
+    
+    
 #########################################################
 
 label9 = tk.Label(root, text= '  PV Panels  ', fg='blue', font=('helvetica', 36, 'bold'), bg='white', bd = 9)#title for PV panels
@@ -87,7 +110,7 @@ def voltage2 ():
     canvas1.create_window(340, 220, window=label11)
     #label12 = tk.Label(root, text= 'V', fg='blue', font=('helvetica', 12, 'bold'), bg='grey')
     #canvas1.create_window(300, 220, window=label12)
-    root.after(100, voltage2)
+
     
 
 #Display SDSU Logo
@@ -102,12 +125,23 @@ class Window(Frame):
         img = Label(self, image=render)
         img.image = render
         img.place(x=1600-284, y=0)
-        
+   
 
+######### used for graph
+ani = animation.FuncAnimation(fig, animate, interval=1000)
+##########
 app = Window(root)
-
-root.after(500, voltage1)
-root.after(500, voltage2)
+root.after(1000, voltage1)
+root.after(1000, voltage2)
 root.wm_title("Microgrid GUI")
 root.geometry("1600x1200")
+############# used for graph
+plt.show()
+#############
 root.mainloop()
+
+
+
+
+
+
